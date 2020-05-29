@@ -1,7 +1,21 @@
-class TweetsController < ApplicationController 
+class TweetsController < ApplicationController   
+
   def index
+    @q = Tweet.ransack(params[:q])
     @tweets = Tweet.order(:created_at).reverse_order.page params[:page]
     @tweet = Tweet.new
+
+      #search hashtag
+     if params.has_key? :search
+       @tweets = @tweets.where("content LIKE '%#{params[:search]}%'")
+     else
+       @tweets 
+     end
+  end
+
+  def search_tweet
+    @q = Tweet.ransack(params[:q])          
+    @tweet_search = @q.result(distinct: true)    
   end
 
   def new
@@ -10,12 +24,13 @@ class TweetsController < ApplicationController
 
   def create
     @tweet = Tweet.new(tweet_params)
-    if @tweet.save
+    @tweet.user = current_user
+    if @tweet.save!
       flash[:notice] = "Fake Tweet creado con exito."      
     else
       flash[:notice] = "Fake Tweet  no pudo ser creado."      
-    end
-    redirect_to :tweets
+    end    
+    redirect_to root_path    
   end
 
   def show    

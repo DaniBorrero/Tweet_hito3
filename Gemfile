@@ -32,6 +32,15 @@ gem 'jquery-rails'
 #Para eliminar error de la gem bootstrap
 #gemas de paginacio
 gem 'kaminari'
+#Gema buscador
+gem 'ransack'
+# Gemfile active-admin
+gem 'activeadmin'
+#buscador
+gem 'ransack'
+#authenticate
+gem 'simple_token_authentication', '~> 1.0' # see semver.org
+
 
 
 # Use Active Storage variant
